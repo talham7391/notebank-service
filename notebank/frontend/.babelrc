@@ -1,3 +1,9 @@
 {
-  "presets": ["@babel/preset-env", "@babel/preset-react"]
+  "presets": ["@babel/preset-env", "@babel/preset-react", "mobx"],
+  "plugins": [
+    ["babel-plugin-styled-components"],
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }],
+    ["@babel/plugin-transform-runtime"],
+    ["@babel/plugin-transform-async-to-generator"]
+  ]
 }

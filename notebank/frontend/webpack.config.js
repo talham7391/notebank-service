@@ -34,6 +34,17 @@ module.exports = {
       test: /\.js$/,
       exclude: /node_modules/,
       loader: "babel-loader",
+    },{
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
     }],
   },
+  resolve: {
+    alias: {
+      utils: path.resolve(__dirname, 'src', 'utils/'),
+      api: path.resolve(__dirname, 'src', 'api/'),
+      components: path.resolve(__dirname, 'src', 'components/'),
+    },
+  },
+  watch: true,
 };
