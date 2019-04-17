@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import * as S from './styles';
 import Preview from 'components/document/Preview';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Badge, Typography, Popconfirm } from 'antd';
-
-const { Text } = Typography;
 
 class ReorderablePreviewList extends Component {
   onDragEnd = evt => {
@@ -30,25 +27,7 @@ class ReorderablePreviewList extends Component {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}>
-                        <S.Badge>
-                          <Badge
-                            count={idx + 1}
-                            style={{
-                              backgroundColor: '#fff',
-                              color: '#999',
-                              boxShadow: '0 0 0 1px #d9d9d9 inset',
-                            }}/>
-                          </S.Badge>
-                        <Preview file={file}/>
-                        <S.Delete>
-                          <Popconfirm
-                            title="Are you sure you sure?"
-                            okText="Yes"
-                            canceText="No"
-                            onConfirm={_ => this.props.onDeleteFile(file)}>
-                            <Text><a>Delete</a></Text>
-                          </Popconfirm>
-                        </S.Delete>
+                        <Preview onDelete={this.props.onDeleteFile} file={file} listOptions={{idx}}/>
                       </S.Draggable>
                     )}
                   </Draggable>

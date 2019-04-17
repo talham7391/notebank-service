@@ -4,8 +4,10 @@ class NoteFormState {
   @observable schoolId = undefined;
   @observable courseCode = undefined;
   @observable academicYear = undefined;
+  @observable title = undefined;
   @observable files = [];
   @observable showFileErrors = false;
+  @observable blurAmount = undefined;
 
   @action addFile = url => {
     this.showFileErrors = false;
@@ -23,18 +25,41 @@ class NoteFormState {
   @action validateFiles = _ => {
     if (this.files.length === 0) {
       this.showFileErrors = true;
+      return {
+        files: {
+          errors: [{
+            field: 'files',
+            message: 'Please upload atleast 1 file.',
+          }],
+        },
+      };
     }
+    return null;
   };
-
-  // @computed get isUploadStepDone() {
-  //   return this.schoolId != null && this.courseCode != null && this.courseCode != '' && this.academicYear != null;
-  // }
 
   @computed get uploadStepFields() {
     return {
       schoolId: this.schoolId,
       courseCode: this.courseCode,
       academicYear: this.academicYear,
+      title: this.title,
+      blurAmount: this.blurAmount,
+    };
+  }
+
+  @computed get pageCount() {
+    return this.files.length;
+  }
+
+  @observable cardNumber = undefined;
+  @observable expiration = undefined;
+  @observable cvv = undefined;
+
+  @computed get moneyStepFields() {
+    return {
+      cardNumber: this.cardNumber,
+      expiration: this.expiration,
+      cvv: this.cvv,
     };
   }
 }

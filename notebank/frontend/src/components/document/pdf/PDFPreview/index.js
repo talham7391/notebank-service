@@ -4,7 +4,7 @@ import CanvasFactory from 'components/canvas/CanvasFactory';
 import { observer } from 'mobx-react';
 import { observable, autorun } from 'mobx';
 import { PDF } from 'utils/document/pdf';
-import { Typography } from 'antd';
+import { Typography, Icon, Popconfirm } from 'antd';
 
 const { Text } = Typography;
 
@@ -53,7 +53,20 @@ const { Text } = Typography;
     return (
       <DocStyles.PreviewContainer>
         <CanvasFactory canvasSize={this.canvasSize} StyledCanvas={DocStyles.PreviewStyledCanvas} ref={this.setCanvasFactoryRef}/>
-        <DocStyles.PreviewFileName><Text>{this.props.file.name}</Text></DocStyles.PreviewFileName>
+        <DocStyles.PreviewFileNameContainer>
+          { this.props.listOptions && this.props.listOptions.idx != null && 
+            <DocStyles.PreviewFileNameIndex><Text type="secondary"><span>{this.props.listOptions.idx + 1}</span> |</Text></DocStyles.PreviewFileNameIndex>
+          }
+          <DocStyles.PreviewFileName><Text>{this.props.file.name}</Text></DocStyles.PreviewFileName>
+          <Popconfirm
+            title="Are you sure you?"
+            okText="Yes"
+            cancelText="No"
+            placement="bottom"
+            onConfirm={_ => this.props.onDelete(this.props.file)}>
+            <DocStyles.PreviewFileNameDelete><a><Icon type="delete" theme="twoTone"/></a></DocStyles.PreviewFileNameDelete>
+          </Popconfirm>
+        </DocStyles.PreviewFileNameContainer>
       </DocStyles.PreviewContainer>
     );
   }

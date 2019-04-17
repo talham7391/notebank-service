@@ -20,3 +20,7 @@ class SchoolsListView(generics.ListAPIView):
         else:
             return School.objects.filter(name__icontains=name)
 
+
+class SchoolRetrieveView(generics.RetrieveAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer

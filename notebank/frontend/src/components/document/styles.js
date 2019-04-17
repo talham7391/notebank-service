@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const PreviewContainer = styled.div`
-  display: grid;
-  row-gap: 15px;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const PreviewStyledCanvas = styled.canvas.attrs(props => ({
@@ -17,9 +18,26 @@ export const PreviewStyledCanvas = styled.canvas.attrs(props => ({
   border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
+export const PreviewFileNameContainer = styled.div`
+  display: flex;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.03);
+  margin-top: 15px;
+`;
+
+export const PreviewFileNameIndex = styled.div`
+  width: 24px;
+`;
+
 export const PreviewFileName = styled.div`
-  max-width: 120px;
+  width: 90px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+export const PreviewFileNameDelete = styled.div`
+  margin-left: 10px;
+  font-size: 16px;
 `;
