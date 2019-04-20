@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 django = "*"
 djangorestframework = "*"
+connect-python-sdk = {git = "https://github.com/square/connect-python-sdk.git"}
 
 [requires]
 python_version = "3.7"

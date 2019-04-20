@@ -1,8 +1,7 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
 
 
 urlpatterns = [
-    path('schools/', views.SchoolsListView.as_view()),
-    path('schools/<int:pk>/', views.SchoolRetrieveView.as_view()),
+    path('schools/', include('api.views.schools.urls')),
+    path('notes/', include('api.views.notes.urls')),
 ]

@@ -3,10 +3,12 @@ import * as S from './styles';
 import ReactDOM from 'react-dom';
 import UploadStep from './upload_step';
 import MoneyStep from './money_step';
+import SubmitStep from './submit_step';
 import state from './state';
 import { Steps, Icon, Button } from 'antd';
 import { observer } from 'mobx-react';
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
+import { createNote } from 'api/notes';
 
 const Step = Steps.Step;
 
@@ -34,6 +36,10 @@ const Step = Steps.Step;
     this.currentStep--;
   };
 
+  onSubmit = _ => {
+    createNote(toJS(state.noteForm.allFields));
+  };
+
   render () {
     return (
       <S.CreateNote>
@@ -46,6 +52,7 @@ const Step = Steps.Step;
         </S.Steps>
         { this.currentStep === 0 && <UploadStep state={state} onNextStep={this.onNextStep}/> }
         { this.currentStep === 1 && <MoneyStep state={state} onNextStep={this.onNextStep} onPreviousStep={this.onPreviousStep}/> }
+        { this.currentStep === 2 && <SubmitStep state={state} onSubmit={this.onSubmit} onPreviousStep={this.onPreviousStep}/> }
       </S.CreateNote>
     );
   }

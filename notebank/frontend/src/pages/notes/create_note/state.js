@@ -47,19 +47,47 @@ class NoteFormState {
     };
   }
 
+  @computed get uploadStepFieldsValues() {
+    return {
+      schoolId: this.schoolId?.value,
+      courseCode: this.courseCode?.value,
+      academicYear: this.academicYear?.value,
+      title: this.title?.value,
+      blurAmount: this.blurAmount?.value,
+    };
+  }
+
   @computed get pageCount() {
     return this.files.length;
   }
 
-  @observable cardNumber = undefined;
-  @observable expiration = undefined;
-  @observable cvv = undefined;
+  @observable email = undefined;
 
   @computed get moneyStepFields() {
     return {
-      cardNumber: this.cardNumber,
-      expiration: this.expiration,
-      cvv: this.cvv,
+      email: this.email,
+    };
+  }
+
+  @computed get moneyStepFieldsValues() {
+    return {
+      email: this.email?.value,
+    };
+  }
+
+  @computed get submitStepFields() {
+    return {};
+  }
+
+  @computed get submitStepFieldsValues() {
+    return {};
+  }
+
+  @computed get allFields() {
+    return {
+      ...this.uploadStepFieldsValues,
+      ...this.moneyStepFieldsValues,
+      ...this.submitStepFieldsValues,
     };
   }
 }

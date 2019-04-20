@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { observable, action, computed, toJS } from 'mobx';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { getSchool, getSchools } from 'api';
+import { getSchool, getSchools } from 'api/schools';
 import ReorderablePreviewList from 'components/document/ReorderablePreviewList';
 import { BLUR_AMOUNT } from 'constants/document';
 import BlurPreview from 'components/document/BlurPreview';

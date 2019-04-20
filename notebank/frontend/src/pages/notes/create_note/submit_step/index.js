@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { observable, action, toJS } from 'mobx';
 import valid from 'card-validator';
 
-class MoneyStep extends Component {
+class SubmitStep extends Component {
 
   validateFields = async _ => {
     const err = await new Promise((res, rej) => {
@@ -17,10 +17,10 @@ class MoneyStep extends Component {
     return err;
   };
 
-  onNextClick = async _ => {
+  onSubmitClick = async _ => {
     const errs = await this.validateFields();
     if (errs == null) {
-      this.props.onNextStep();
+      this.props.onSubmit();
     } else {
       message.error('You must fix the errors in your form.');
     }
@@ -33,23 +33,12 @@ class MoneyStep extends Component {
       <PS.StepContainer>
         <PS.FormContainer>
           <Form>
-            <Form.Item label="Email Address">
-              {getFieldDecorator('email', {
-                  rules: [{
-                    required: true,
-                    type: 'email',
-                    message: 'Please enter a valid email address.',
-                  }],
-                })(
-                  <Input placeholder="abc@123.com"/>
-                )}
-            </Form.Item>
           </Form>
         </PS.FormContainer>
         <PS.FormContainer>
           <S.Buttons>
             <Button onClick={this.props.onPreviousStep}><Icon type="left"/>Back</Button>
-            <Button type="primary" onClick={this.onNextClick}>Next<Icon type="right"/></Button>
+            <Button type="primary" onClick={this.onSubmitClick}>Submit</Button>
           </S.Buttons>
         </PS.FormContainer>
       </PS.StepContainer>
@@ -57,10 +46,10 @@ class MoneyStep extends Component {
   }
 }
 
-const WrappedMoneyStep = Form.create({
-  name: 'money',
+const WrappedSubmitStep = Form.create({
+  name: 'submit',
   mapPropsToFields: props => {
-    const fields = props.state.noteForm.moneyStepFields;
+    const fields = props.state.noteForm.submitStepFields;
     const retval = {};
     for (let f in fields) {
       retval[f] = Form.createFormField(toJS(fields[f]));
@@ -72,11 +61,10 @@ const WrappedMoneyStep = Form.create({
       props.state.noteForm[field] = fields[field];
     }
   },
-})(MoneyStep);
+})(SubmitStep);
 
-const ObservingWrappedMoneyStep = observer(props => {
-  let _ = props.state.noteForm.email;
-  return <WrappedMoneyStep {...props}/>
+const ObservingWrappedSubmitStep = observer(props => {
+  return <WrappedSubmitStep {...props}/>
 });
 
-export default ObservingWrappedMoneyStep;
+export default ObservingWrappedSubmitStep;

@@ -3,8 +3,9 @@ import axios from 'axios';
 const HOST = 'localhost';
 const PORT = '8000';
 
-const get = async (endpoint, params = {}) => {
-  const base = `http://${HOST}:${PORT}/api/${endpoint}`;
+const getBase = endpoint => `http://${HOST}:${PORT}/api/${endpoint}`;
+
+const createParamsStr = params => {
   let paramsStr = '';
   for (let i in params) {
     if (paramsStr == '') {
@@ -13,22 +14,19 @@ const get = async (endpoint, params = {}) => {
       paramsStr += `&${i}=${params[i]}`
     }
   }
+  return paramsStr;
+};
+
+export const get = async (endpoint, params = {}) => {
+  const base = getBase(endpoint);
+  const paramsStr = createParamsStr(params);
   const res = await axios.get(`${base}${paramsStr}`);
   return res;
 };
 
-export const getSchools = async searchQuery => {
-  const params = {
-    limit: 10,
-  };
-  if (searchQuery && searchQuery !== '') {
-    params.name = searchQuery
-  }
-  const res = await get('schools/', params);
-  return res.data;
-};
-
-export const getSchool = async schoolId => {
-  const res = await get(`schools/${schoolId}/`);
-  return res.data;
+export const post = async (endpoint, body, params = {}) => {
+  const base = getBase(endpoint);
+  const paramsStr = createParamsStr(params);
+  const res = await axios.post(`${base}${paramsStr}`, body);
+  return res;
 };
