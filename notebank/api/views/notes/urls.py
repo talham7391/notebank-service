@@ -1,9 +1,15 @@
-from .views import NotesViewSet
-from rest_framework.routers import DefaultRouter
+from .views import NotesViewSet, SheetsViewSet
+from rest_framework_nested import routers
+from django.urls import path, include
 
 
-router = DefaultRouter()
-router.register('', NotesViewSet)
+router = routers.SimpleRouter()
+router.register('notes', NotesViewSet)
 
+notes_router = routers.NestedSimpleRouter(router, 'notes', lookup='note')
+notes_router.register('sheets', SheetsViewSet, base_name='note-sheets')
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('', include(router.urls)),
+    path('', include(notes_router.urls)),
+]

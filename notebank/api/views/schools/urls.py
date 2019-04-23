@@ -3,6 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.SchoolsListView.as_view()),
-    path('<int:pk>/', views.SchoolRetrieveView.as_view()),
+    path('schools/', views.SchoolsListView.as_view()),
+    path('schools/<int:pk>/', views.SchoolRetrieveView.as_view()),
 ]
