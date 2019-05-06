@@ -8,7 +8,7 @@ const { Title, Paragraph } = Typography;
 
 class HomePage extends Component {
   gotoBrowse = _ => {
-    window.location.href = '/browse/';
+    window.location.href = '/notes/browse/';
   };
 
   render () {

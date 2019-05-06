@@ -43,13 +43,30 @@ export const setToken = token => {
   useTokenIfExists();
 };
 
-export const useTokenIfExists = _ => {
+export const deleteToken = _ => {
+  document.cookie = `auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+};
+
+export const getToken = _ => {
   const cookies = document.cookie;
   const cookiesArr = cookies.split(';').map(cookieStr => cookieStr.split('='));
   const token = cookiesArr.find(cookie => cookie[0].trim() === 'auth_token');
+  return token;
+};
+
+export const useTokenIfExists = _ => {
+  const token = getToken();
   if (token) {
     axios.defaults.headers.common['Authorization'] = `JWT ${token[1].trim()}`
   }
+};
+
+export const doesTokenExist = _ => {
+  const token = getToken();
+  if (token) {
+    return true;
+  }
+  return false;
 };
 
 useTokenIfExists();

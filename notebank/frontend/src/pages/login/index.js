@@ -9,6 +9,7 @@ import { observable } from 'mobx';
 import { Alert, Button, Typography } from 'antd';
 import Page from 'components/ui/page';
 import { PageContent } from 'components/ui/page/styles';
+import { redirectToAccountIfLoggedIn } from 'utils/users';
 
 const { Title } = Typography;
 
@@ -49,6 +50,12 @@ const { Title } = Typography;
     this.testingLoading = false;
   };
 
+  componentDidMount() {
+    if (redirectToAccountIfLoggedIn()) {
+      this.loginSucceeded = true;
+    }
+  }
+
   render() {
     return (
       <Page showLogin={false}>
@@ -71,7 +78,7 @@ const { Title } = Typography;
                 showIcon
                 type="success"
                 message="Login Succeeded"
-                description="Redirecting to account..."/>
+                description="Redirecting..."/>
             }
             { this.DEBUG_MODE &&
               <div>
