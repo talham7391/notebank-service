@@ -1,0 +1,17 @@
+[
+  {
+    "model": "api.School",
+    "pk": 1,
+    "fields": {
+      "name": "University of Waterloo"
+    }
+  },{
+    "model": "api.Course",
+    "pk": 1,
+    "fields": {
+      "name": "Introduction to Machine Learning",
+      "school_id": 1,
+      "course_code": "CS 480"
+    }
+  }
+]

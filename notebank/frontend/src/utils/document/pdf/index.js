@@ -17,7 +17,23 @@ export class PDF {
     return null;
   };
 
-  renderToCanvas = async (canvas, options) => {
+  renderPageToCanvas = async (canvas, pageNumber, scale) => {
+    const page = await this.getPage(pageNumber);
+
+    const viewport = page.getViewport({scale});
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    const canvasContext = canvas.getContext('2d');
+    const renderContext = {
+      canvasContext,
+      viewport,
+    };
+    const render = page.render(renderContext);
+    await render.promise;
+  };
+
+  renderToCanvasWithFit = async (canvas, options) => {
     const defaults = {
       width: 300,
       height: 300,
@@ -52,9 +68,7 @@ export class PDF {
       canvasContext,
       viewport,
     };
-    page.render(renderContext);
-
-    this.renderingTo = undefined;    
+    page.render(renderContext);  
     return size;
   };
 };

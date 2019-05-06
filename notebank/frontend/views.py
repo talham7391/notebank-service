@@ -7,3 +7,11 @@ def index(request):
 
 def create_note(request):
     return render(request, 'frontend/notes/create_note/index.html')
+
+
+def login(request):
+    return render(request, 'frontend/login/index.html')
+
+
+def create_account(request):
+    return render(request, 'frontend/create_account/index.html')

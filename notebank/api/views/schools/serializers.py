@@ -6,3 +6,9 @@ class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.School
         fields = ('id', 'name')
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Course
+        fields = '__all__'

@@ -12,6 +12,7 @@ squareconnect = "*"
 boto3 = "*"
 requests = "*"
 drf-nested-routers = "*"
+djangorestframework-jwt = "*"
 
 [requires]
 python_version = "3.7"

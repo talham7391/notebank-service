@@ -5,12 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.worker.min.js"></script>
-        <script src="https://js.stripe.com/v3/"></script>
+        <script type="text/javascript" src="https://js.squareup.com/v2/paymentform"></script>
         <title>Create Note</title>
     </head>
     <body>
         <div id="root"></div>
     </body>
     {% load static %}
+    <script type="text/javascript" src="{% static 'vendor/square/sqpaymentform-basic.js' %}"></script>
     <script src="{% static 'frontend/notes/create_note/index.js' %}"></script>
 </html>

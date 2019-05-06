@@ -1,0 +1,1 @@
+export const VALIDATE_NOTE_CREATION = true;

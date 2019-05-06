@@ -36,7 +36,7 @@ const { Text } = Typography;
       this.currentlyRendering = true;
       const pdf = new PDF();
       await pdf.load(this.props.file.url);
-      const size = await pdf.renderToCanvas(this.canvasFactory.getCanvas(0), {...this.props.fitWithin});
+      const size = await pdf.renderToCanvasWithFit(this.canvasFactory.getCanvas(0), {...this.props.fitWithin});
       this.canvasSize = size;
       this.shouldRender = false;
       this.currentlyRendering = false;

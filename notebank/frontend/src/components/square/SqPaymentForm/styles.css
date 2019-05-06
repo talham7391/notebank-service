@@ -1,0 +1,76 @@
+iframe {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+hr {
+  height: 1px;
+  border: 0;
+  background-color: #CCC;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.third {
+  float: left;
+  width: calc((100% - 32px) / 3);
+  padding: 0;
+  margin: 0 16px 16px 0;
+}
+
+.third:last-of-type {
+  margin-right: 0;
+}
+
+.custom-control {
+  height: 40px;
+}
+
+/* Define how SqPaymentForm iframes should look */
+.sq-input {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0;
+  font-variant: 'tabular-nums';
+  list-style: none;
+  font-feature-settings: 'tnum';
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 32px;
+  padding: 0px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  -webkit-transition: all 0.3s;
+     -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+          transition: all 0.3s;
+}
+
+/* Define how SqPaymentForm iframes should look when they have focus */
+.sq-input--focus {
+  border-color: #40a9ff;
+  border-right-width: 1px !important;
+  outline: 0;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* Define how SqPaymentForm iframes should look when they contain invalid values */
+.sq-input--error {
+  border-color: #f5222d;
+}
+
+#error {
+  width: 100%;
+  margin-top: 16px;
+  font-size: 14px;
+  color: red;
+  font-weight: 500;
+  text-align: center;
+  opacity: 0.8;
+}

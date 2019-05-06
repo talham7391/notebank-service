@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import * as S from './styles';
 import * as PS from '../styles';
-import { Form, Input, Row, Col, Button, Icon, message } from 'antd';
+import { Form, Input, Row, Col, Button, Icon, message, Checkbox } from 'antd';
 import { observer } from 'mobx-react';
 import { observable, action, toJS } from 'mobx';
 import valid from 'card-validator';
+import { VALIDATE_NOTE_CREATION } from 'constants/global';
 
 class SubmitStep extends Component {
 
@@ -18,12 +19,29 @@ class SubmitStep extends Component {
   };
 
   onSubmitClick = async _ => {
+    if (!VALIDATE_NOTE_CREATION) {
+      this.props.onSubmit();
+      return;
+    }
     const errs = await this.validateFields();
     if (errs == null) {
       this.props.onSubmit();
     } else {
       message.error('You must fix the errors in your form.');
     }
+  };
+
+  termsAndConditionsValidator(rule, value, callback) {
+    const errors = [];
+    if (value !== true) {
+      errors.push('You must agree to the terms and conditions to create a note.');
+    }
+    callback(errors);
+  }
+
+  onTerms = evt => {
+    evt.preventDefault();
+    window.location.href = '/terms-and-conditions';
   };
 
   render() {
@@ -33,6 +51,16 @@ class SubmitStep extends Component {
       <PS.StepContainer>
         <PS.FormContainer>
           <Form>
+            <Form.Item>
+            {getFieldDecorator('isAgreeTermsAndConditions', {
+              rules: [{
+                required: true,
+                validator: this.termsAndConditionsValidator,
+              }],
+            })(
+              <Checkbox>I have read and agree to the <a onClick={this.onTerms}>Terms and Conditions.</a></Checkbox>
+            )}
+            </Form.Item>
           </Form>
         </PS.FormContainer>
         <PS.FormContainer>

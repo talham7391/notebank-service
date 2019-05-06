@@ -15,8 +15,8 @@ class NoteUtilsMixin:
         return {
             'title': 'Assignment 4 Solutions',
             'academic_year': 2020,
-            'created_by': 'test@user.com',
             'course': 1,
+            'price': 0,
         }
 
     def get_note(self, note_id):
@@ -29,7 +29,6 @@ class NoteUtilsMixin:
                 **self.get_default_note_data(),
                 **kwargs,
             },
-            format='json',
         )
 
 
@@ -38,8 +37,30 @@ class SheetUtilsMixin:
     def get_sheets_endpoint(self, note_id):
         return f'/api/notes/{note_id}/sheets/'
 
-    def post_sheet(self, note_id):
-        return self.client.post(self.get_sheets_endpoint(note_id))
+    def post_sheet(self, note_id, file_name, is_secret):
+        return self.client.post(
+            self.get_sheets_endpoint(note_id),
+            {'file_name': file_name, 'is_secret': is_secret},
+        )
+
+    def get_sheets(self, note_id):
+        return self.client.get(f'{self.get_sheets_endpoint(note_id)}')
 
     def get_sheet(self, note_id, sheet_id):
         return self.client.get(f'{self.get_sheets_endpoint(note_id)}{sheet_id}/')
+
+
+class LoginUtilsMixin:
+    login_username = None
+    login_password = None
+
+    def do_create_account(self):
+        self.client.post('/api/users/create-account/', {'username': self.login_username, 'password': self.login_password})
+
+    def do_login(self):
+        res = self.client.post('/api/users/login/', {'username': self.login_username, 'password': self.login_password})
+        data = res.json()
+        self.client.credentials(HTTP_AUTHORIZATION=f'JWT {data["token"]}')
+
+    def do_logout(self):
+        self.client.credentials(HTTP_AUTHORIZATION='')

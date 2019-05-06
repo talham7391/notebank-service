@@ -24,9 +24,32 @@ export const get = async (endpoint, params = {}) => {
   return res;
 };
 
-export const post = async (endpoint, body, params = {}) => {
+export const post = async (endpoint, body, params = {}, config={}) => {
   const base = getBase(endpoint);
   const paramsStr = createParamsStr(params);
-  const res = await axios.post(`${base}${paramsStr}`, body);
+  const res = await axios.post(`${base}${paramsStr}`, body, config);
   return res;
 };
+
+export const put = async (endpoint, body, params = {}) => {
+  const base = getBase(endpoint);
+  const paramsStr = createParamsStr(params);
+  const res = await axios.put(`${base}${paramsStr}`, body);
+  return res;
+};
+
+export const setToken = token => {
+  document.cookie = `auth_token=${token}; path=/`;
+  useTokenIfExists();
+};
+
+export const useTokenIfExists = _ => {
+  const cookies = document.cookie;
+  const cookiesArr = cookies.split(';').map(cookieStr => cookieStr.split('='));
+  const token = cookiesArr.find(cookie => cookie[0].trim() === 'auth_token');
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `JWT ${token[1].trim()}`
+  }
+};
+
+useTokenIfExists();

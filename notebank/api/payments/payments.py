@@ -1,4 +1,5 @@
 from squareconnect.apis import CustomersApi
+from squareconnect import models
 import os
 
 
@@ -33,3 +34,13 @@ def delete_all_customers():
 def retrieve_customer(customer_id):
     res = customers_api.retrieve_customer(customer_id)
     return res.customer
+
+
+def add_card_for_customer(customer_id, card_nonce):
+    body = models.CreateCustomerCardRequest()
+    body.card_nonce = card_nonce
+    res = customers_api.create_customer_card(customer_id, body)
+
+def delete_all_cards_for_customer(customer_id):
+    pass
+    # customers_api.delete_customer_card(customer_id)

@@ -6,21 +6,29 @@ import { observer } from 'mobx-react';
 import { observable, action, computed, toJS } from 'mobx';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { getSchool, getSchools } from 'api/schools';
+import { getSchool, getSchools, getCourse, getCourses } from 'api/schools';
 import ReorderablePreviewList from 'components/document/ReorderablePreviewList';
 import { BLUR_AMOUNT } from 'constants/document';
 import BlurPreview from 'components/document/BlurPreview';
+import { VALIDATE_NOTE_CREATION } from 'constants/global';
 
 const { Option } = Select;
 const { Text } = Typography;
 
 @observer class UploadStep extends Component {
   @observable schoolOptions = [];
+  @observable courseOptions = [];
   @observable isLoadingSchools = false;
-  searchSubject = new Subject();
+  @observable isLoadingCourses = false;
+  schoolSearchSubject = new Subject();
+  courseSearchSubject = new Subject();
 
   onSchoolSearch = search => {
-    this.searchSubject.next(search);
+    this.schoolSearchSubject.next(search);
+  };
+
+  onCourseSearch = search => {
+    this.courseSearchSubject.next(search);
   };
 
   @action handleUploadRequest = evt => {
@@ -34,6 +42,18 @@ const { Text } = Typography;
     return new Promise(_ => false);
   };
 
+  @action updateCourseOptionsHelper = async (schoolId, search) => {
+    this.isLoadingCourses = true;
+    this.courseOptions = [];
+    this.courseOptions = await getCourses(schoolId, search);
+    this.isLoadingCourses = false;
+  };
+
+  @action onSchoolSelect = id => {
+    this.props.state.noteForm.courseId = undefined;
+    this.updateCourseOptionsHelper(id, '');
+  };
+
   @action updateSchoolOptions = async search => {
     this.isLoadingSchools = true;
     this.schoolOptions = [];
@@ -41,8 +61,11 @@ const { Text } = Typography;
     this.isLoadingSchools = false;
   };
 
+  @action updateCourseOptions = search => this.updateCourseOptionsHelper(this.props.state.noteForm.schoolId.value, search);
+
   @action componentDidMount = async () => {
-    this.searchSubject.pipe(debounceTime(100)).subscribe(this.updateSchoolOptions);
+    this.schoolSearchSubject.pipe(debounceTime(100)).subscribe(this.updateSchoolOptions);
+    this.courseSearchSubject.pipe(debounceTime(100)).subscribe(this.updateCourseOptions);
     if (this.props.state.noteForm.schoolId != null) {
       this.schoolOptions = [{
         id: this.props.state.noteForm.schoolId.value,
@@ -52,11 +75,24 @@ const { Text } = Typography;
     } else {
       this.schoolOptions = await getSchools();
     }
+    if (this.props.state.noteForm.courseId != null) {
+      this.courseOptions = [{
+        id: this.props.state.noteForm.courseId.value,
+        course_code: 'Loading Course Code...',
+      }];
+      this.courseOptions = [await getCourse(this.props.state.noteForm.schoolId.value, this.props.state.noteForm.courseId.value)];
+    }
   };
 
   @computed get renderSchoolOptions() {
     return this.schoolOptions.map(option => (
       <Option key={option.id} value={option.id}>{option.name}</Option>
+    ));
+  };
+
+  @computed get renderCourseOptions() {
+    return this.courseOptions.map(option => (
+      <Option key={option.id} value={option.id}>{option.course_code}</Option>
     ));
   };
 
@@ -79,8 +115,10 @@ const { Text } = Typography;
   };
 
   onNextClick = async _ => {
-    this.props.onNextStep();
-    return;
+    if (!VALIDATE_NOTE_CREATION) {
+      this.props.onNextStep();
+      return;
+    }
     const errs = await this.validateFields();
     if (errs == null) {
       this.props.onNextStep();
@@ -123,21 +161,31 @@ const { Text } = Typography;
                 rules: [{required: true, message: 'Please select a school.'}],
               })(
                 <Select
+                  onChange={this.onSchoolSelect}
                   showSearch
                   notFoundContent={this.isLoadingSchools ? <Icon type="loading"/> : 'No schools found.'}
                   filterOption={_ => true}
                   onSearch={this.onSchoolSearch}
                   suffixIcon={<Icon type="search"/>}
-                  placeholder="University of Earth">
+                  placeholder="University of Ontario">
                   { this.renderSchoolOptions }
                 </Select>
               )}
             </Form.Item>
             <Form.Item label="Course Code">
-              {getFieldDecorator('courseCode', {
+              {getFieldDecorator('courseId', {
                 rules: [{required: true, message: 'Please enter a course code.'}],
               })(
-                <Input placeholder="ABC 123"/>
+                <Select
+                  disabled={this.props.state.noteForm.schoolId == null}
+                  showSearch
+                  notFoundContent={this.isLoadingCourses ? <Icon type="loading"/> : 'No courses found.'}
+                  filterOption={_ => true}
+                  onSearch={this.onCourseSearch}
+                  suffixIcon={<Icon type="search"/>}
+                  placeholder="ABC 123">
+                  { this.renderCourseOptions }
+                </Select>
               )}
             </Form.Item>
             <Form.Item label="Academic Year">
@@ -240,7 +288,7 @@ const WrappedUploadStep = Form.create({
 const ObservingWrappedUploadStep = observer(props => {
   let _ = null;
   _ = props.state.noteForm.schoolId;
-  _ = props.state.noteForm.courseCode;
+  _ = props.state.noteForm.courseId;
   _ = props.state.noteForm.academicYear;
   _ = props.state.noteForm.title;
   _ = props.state.noteForm.blurAmount;

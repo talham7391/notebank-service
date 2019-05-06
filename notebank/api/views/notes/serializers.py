@@ -12,6 +12,12 @@ class NoteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class NewNoteRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Note
+        exclude = ('created_by',)
+
+
 class SheetSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
 
@@ -20,19 +26,20 @@ class SheetSerializer(serializers.ModelSerializer):
         fields = ('id', 'note', 'url')
 
     def get_url(self, sheet):
-        return s3.generate_presigned_download(sheet.hidden_storage_location)
+        return s3.generate_presigned_download(sheet.storage_location)
 
 
 class NewSheetSerializer(serializers.ModelSerializer):
-    hidden_upload_url = serializers.SerializerMethodField()
     upload_url = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Sheet
-        fields = ('id', 'note', 'hidden_upload_url', 'upload_url')
-
-    def get_hidden_upload_url(self, sheet):
-        return s3.generate_presigned_upload(sheet.hidden_storage_location)
+        fields = ('id', 'note', 'upload_url')
 
     def get_upload_url(self, sheet):
         return s3.generate_presigned_upload(sheet.storage_location)
+
+
+class NewSheetRequestSerializer(serializers.Serializer):
+    file_name = serializers.CharField()
+    is_secret = serializers.BooleanField()
