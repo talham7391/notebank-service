@@ -15,3 +15,11 @@ def login(request):
 
 def create_account(request):
     return render(request, 'frontend/create_account/index.html')
+
+
+def browse_notes(request):
+    return render(request, 'frontend/notes/browse/index.html')
+
+
+def account(request):
+    return render(request, 'frontend/account/index.html')

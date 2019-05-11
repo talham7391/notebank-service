@@ -35,6 +35,7 @@
     "mobx-react": "^5.4.3",
     "pdfjs-dist": "^2.0.943",
     "react-beautiful-dnd": "^11.0.0-beta.2",
+    "react-router-dom": "^5.0.0",
     "react-scroll": "^1.7.11",
     "recompose": "^0.30.0",
     "rxjs": "^6.4.0",

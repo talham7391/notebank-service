@@ -3,7 +3,11 @@
     "model": "api.School",
     "pk": 1,
     "fields": {
-      "name": "University of Waterloo"
+      "name": "University of Waterloo",
+      "city": "Waterloo",
+      "state": "Ontario",
+      "country": "Canada",
+      "thumbnail_url": "https://uwaterloo.ca/brand/sites/ca.brand/files/resize/uploads/images/universityofwaterloo_logo_vert_rgb_0-300x195.png"
     }
   },{
     "model": "api.Course",

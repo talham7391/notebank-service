@@ -5,7 +5,7 @@ from . import models
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.School
-        fields = ('id', 'name')
+        fields = '__all__'
 
 
 class CourseSerializer(serializers.ModelSerializer):

@@ -8,7 +8,7 @@ class Page extends Component {
     return (
       <Fragment>
         <S.Page>
-          <Toolbar showLogin={this.props.showLogin}/>
+          <Toolbar showLogin={this.props.showLogin} showLogout={this.props.showLogout}/>
           {this.props.children}
         </S.Page>
         <Footer />
