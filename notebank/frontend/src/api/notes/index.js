@@ -1,12 +1,16 @@
-import { post } from 'api';
+import { get, post } from 'api';
 import axios from 'axios';
 
-export const createNote = async (title, courseId, academicYear, price) => {
+export const getNotesForAuthenticatedUser = async _ => {
+  const res = await get('notes/authenticated/');
+  return res.data;
+};
+
+export const createNote = async (title, courseId, academicYear) => {
   const res = await post('notes/', {
     title,
     course: courseId,
     academic_year: academicYear,
-    price,
   });
   return res.data;
 };

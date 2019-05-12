@@ -10,6 +10,8 @@ import { Steps, Icon, Button } from 'antd';
 import { observer } from 'mobx-react';
 import { observable, action, toJS } from 'mobx';
 import { createNote } from 'api/notes';
+import Page from 'components/ui/page';
+import { PageContent } from 'components/ui/page/styles';
 
 const Step = Steps.Step;
 
@@ -39,19 +41,14 @@ const Step = Steps.Step;
 
   render () {
     return (
-      <S.CreateNote>
-        <S.Steps>
-          <Steps current={this.currentStep}>
-            <Step title="Upload" icon={<Icon type="file-text"/>}/>
-            <Step title="Bank Info" icon={<Icon type="credit-card"/>}/>
-            <Step title="Submit" icon={<Icon type="smile"/>}/>
-          </Steps>
-        </S.Steps>
-        { this.currentStep === 0 && <UploadStep state={state} onNextStep={this.onNextStep}/> }
-        { this.currentStep === 1 && <MoneyStep state={state} onNextStep={this.onNextStep} onPreviousStep={this.onPreviousStep}/> }
-        { this.currentStep === 2 && <SubmitStep state={state} onSubmit={this.onNextStep} onPreviousStep={this.onPreviousStep}/> }
-        { this.currentStep === 3 && <CreateStep state={state}/> }
-      </S.CreateNote>
+      <Page>
+        <PageContent>
+          <S.CreateNote>
+            { this.currentStep === 0 && <UploadStep state={state} onNextStep={this.onNextStep}/> }
+            { this.currentStep === 1 && <CreateStep state={state}/> }
+          </S.CreateNote>
+        </PageContent>
+      </Page>
     );
   }
 }

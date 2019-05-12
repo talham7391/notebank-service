@@ -30,6 +30,8 @@ export const BlurAmount = styled.div`
 
 export const Buttons = styled.div`
   display: flex;
-  justify-content: center;
-  margin-top: 30px;
+    
+  > * {
+    flex-grow: 1;
+  }
 `;

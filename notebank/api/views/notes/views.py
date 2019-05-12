@@ -6,6 +6,7 @@ from rest_framework.mixins import CreateModelMixin
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import action
 from api.views import utils
 from rest_framework.permissions import BasePermission
 
@@ -32,6 +33,12 @@ class NotesViewSet(viewsets.ModelViewSet):
             return Response(res_serializer.data, status=status.HTTP_201_CREATED)
         else:
             raise ValidationError(serializer.errors)
+
+    @action(methods=['GET'], detail=False)
+    def authenticated(self, request):
+        notes = Note.objects.filter(created_by=request.user)
+        serializer = serializers.NoteSerializer(notes, many=True)
+        return Response(serializer.data)
 
 
 class SheetsViewSet(CreateModelMixin, viewsets.ReadOnlyModelViewSet):
@@ -63,7 +70,7 @@ class SheetsViewSet(CreateModelMixin, viewsets.ReadOnlyModelViewSet):
             if not utils.can_user_create_sheet(request.user, note):
                 return Response(status=status.HTTP_403_FORBIDDEN)
 
-            sheet = create_sheet(note, data['file_name'], data['is_secret'])
+            sheet = create_sheet(note, data['file_name'], data['is_secret'], data['order'])
             sheet.save()
             serializer = serializers.NewSheetSerializer(sheet)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

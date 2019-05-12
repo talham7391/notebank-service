@@ -43,3 +43,4 @@ class NewSheetSerializer(serializers.ModelSerializer):
 class NewSheetRequestSerializer(serializers.Serializer):
     file_name = serializers.CharField()
     is_secret = serializers.BooleanField()
+    order = serializers.IntegerField(min_value=0)

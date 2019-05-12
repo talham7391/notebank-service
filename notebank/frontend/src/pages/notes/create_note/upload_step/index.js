@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import * as S from './styles';
-import { Form, Select, Icon, Input, Upload, InputNumber, Button, Typography, Radio, message } from 'antd';
+import { Form, Select, Icon, Input, Upload, InputNumber, Button, Typography, Radio, message, Checkbox } from 'antd';
 import * as PS from '../styles';
 import { observer } from 'mobx-react';
 import { observable, action, computed, toJS } from 'mobx';
@@ -8,8 +8,6 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { getSchool, getSchools, getCourse, getCourses } from 'api/schools';
 import ReorderablePreviewList from 'components/document/ReorderablePreviewList';
-import { BLUR_AMOUNT } from 'constants/document';
-import BlurPreview from 'components/document/BlurPreview';
 import { VALIDATE_NOTE_CREATION } from 'constants/global';
 
 const { Option } = Select;
@@ -103,6 +101,19 @@ const { Text } = Typography;
   @action onDeleteFile = file => {
     this.props.state.noteForm.deleteFile(file);
   };
+
+  onTerms = evt => {
+    evt.preventDefault();
+    window.location.href = '/terms-and-conditions/';
+  };
+
+  termsAndConditionsValidator(rule, value, callback) {
+    const errors = [];
+    if (value !== true) {
+      errors.push('You must agree to the terms and conditions.');
+    }
+    callback(errors);
+  }
 
   validateFields = async _ => {
     const err = await new Promise((res, rej) => {
@@ -212,22 +223,6 @@ const { Text } = Typography;
                 )}
               </Input.Group>
             </Form.Item>
-            <Form.Item label="Blur Amount for Preview">
-              <S.BlurAmount>
-                {getFieldDecorator('blurAmount', {
-                  rules: [{required: true, message: 'Please choose a blur amount.'}],
-                })(
-                  <Radio.Group>
-                    <Radio style={radioStyle} value={BLUR_AMOUNT.FULL}>All of the first page.</Radio>
-                    <Radio style={radioStyle} value={BLUR_AMOUNT.HALF}>Half of the first page.</Radio>
-                    <Radio style={radioStyle} value={BLUR_AMOUNT.NONE}>Leave the first page visible.</Radio>
-                  </Radio.Group>
-                )}
-                <div>
-                  <BlurPreview blurAmount={this.props.state.noteForm.blurAmount?.value}/>
-                </div>
-              </S.BlurAmount>
-            </Form.Item>
             <Form.Item
               label="Files"
               required="true"
@@ -246,22 +241,37 @@ const { Text } = Typography;
             </Form.Item>
           </Form>
         </PS.FormContainer>
+        { this.props.state.noteForm.pageCount > 0 &&
+          <Fragment>
+            <PS.FormContainer>
+              <S.DragInfo><Text type="secondary">Click/hold & drag to reorder the files.</Text></S.DragInfo>
+            </PS.FormContainer>
+            <S.FilesContainer>
+              <S.HorizontalScroll>
+                <ReorderablePreviewList
+                  files={this.props.state.noteForm.files}
+                  onReorder={this.onReorderFiles}
+                  onDeleteFile={this.onDeleteFile}/>
+              </S.HorizontalScroll>
+            </S.FilesContainer>
+          </Fragment>
+        }
         <PS.FormContainer>
-          { this.props.state.noteForm.pageCount > 0 &&
-          <S.DragInfo><Text type="secondary">Click/hold & drag to reorder the files.</Text></S.DragInfo> }
-        </PS.FormContainer>
-        <S.FilesContainer>
-          <S.HorizontalScroll>
-            <ReorderablePreviewList
-              files={this.props.state.noteForm.files}
-              onReorder={this.onReorderFiles}
-              onDeleteFile={this.onDeleteFile}/>
-          </S.HorizontalScroll>
-        </S.FilesContainer>
-        <PS.FormContainer>
-          <S.Buttons>
-            <Button type="primary" onClick={this.onNextClick}>Next<Icon type="right"/></Button>
-          </S.Buttons>
+          <Form>
+            <Form.Item>
+              {getFieldDecorator('isAgreeTermsAndConditions', {
+                rules: [{
+                  required: true,
+                  validator: this.termsAndConditionsValidator,
+                }],
+              })(
+                <Checkbox>I agree to the <a onClick={this.onTerms}>Terms and Conditions.</a></Checkbox>
+              )}
+            </Form.Item>
+            <Form.Item>
+              <S.Buttons><Button type="primary" onClick={this.onNextClick}>Upload</Button></S.Buttons>
+            </Form.Item>
+          </Form>
         </PS.FormContainer>
       </PS.StepContainer>
     );
@@ -291,8 +301,8 @@ const ObservingWrappedUploadStep = observer(props => {
   _ = props.state.noteForm.courseId;
   _ = props.state.noteForm.academicYear;
   _ = props.state.noteForm.title;
-  _ = props.state.noteForm.blurAmount;
   _ = props.state.noteForm.files.slice();
+  _ = props.state.noteForm.isAgreeTermsAndConditions;
   return <WrappedUploadStep {...props}/>
 });
 

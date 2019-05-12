@@ -3,7 +3,7 @@ import { Steps, Progress, Alert, Icon } from 'antd';
 import * as PS from '../styles';
 import { observer } from 'mobx-react';
 import { observable, toJS } from 'mobx';
-import { getProgressStatus, blurFile, changeExtensionToPng } from './utils';
+import { getProgressStatus, changeExtensionToPng } from './utils';
 import * as notesApi from 'api/notes';
 import * as usersApi from 'api/users';
 import axios from 'axios';
@@ -29,7 +29,6 @@ const Step = Steps.Step;
       uploadData.title,
       uploadData.courseId,
       uploadData.academicYear,
-      moneyData.price,
     );
     this.progress.uploadNote = 100;
   };
@@ -99,6 +98,7 @@ const Step = Steps.Step;
       this.currentStep++;
       await this.doUploadDocuments();
       this.currentStep++;
+      this.uploadDocuments();
     } catch (e) {
       console.log(e);
       this.showError = true;

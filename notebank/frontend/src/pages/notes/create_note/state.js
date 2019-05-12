@@ -7,7 +7,7 @@ class NoteFormState {
   @observable title = undefined;
   @observable files = [];
   @observable showFileErrors = false;
-  @observable blurAmount = undefined;
+  @observable isAgreeTermsAndConditions = false;
 
   @action addFile = url => {
     this.showFileErrors = false;
@@ -43,7 +43,7 @@ class NoteFormState {
       courseId: this.courseId,
       academicYear: this.academicYear,
       title: this.title,
-      blurAmount: this.blurAmount,
+      isAgreeTermsAndConditions: this.isAgreeTermsAndConditions,
     };
   }
 
@@ -53,7 +53,7 @@ class NoteFormState {
       courseId: this.courseId?.value,
       academicYear: this.academicYear?.value,
       title: this.title?.value,
-      blurAmount: this.blurAmount?.value,
+      isAgreeTermsAndConditions: this.isAgreeTermsAndConditions?.value,
     };
   }
 
@@ -84,20 +84,6 @@ class NoteFormState {
       price: this.price?.value,
       nonce: this.nonce,
       cardData: this.cardData,
-    };
-  }
-
-  @observable isAgreeTermsAndConditions = false;
-
-  @computed get submitStepFields() {
-    return {
-      isAgreeTermsAndConditions: this.isAgreeTermsAndConditions,
-    };
-  }
-
-  @computed get submitStepFieldsValues() {
-    return {
-      isAgreeTermsAndConditions: this.isAgreeTermsAndConditions?.value,
     };
   }
 

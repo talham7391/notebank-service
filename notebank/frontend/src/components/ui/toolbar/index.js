@@ -25,7 +25,7 @@ class Toolbar extends Component {
 
   doLogout = _ => {
     deleteToken();
-    window.location.reload();
+    window.location.href = "/login/";
   };
 
   render() {

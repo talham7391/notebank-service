@@ -7,3 +7,11 @@ export const redirectToAccountIfLoggedIn = _ => {
   }
   return false;
 };
+
+export const redirectToLoginIfLoggedOut = _ => {
+  if (!doesTokenExist()) {
+    window.location.href = '/login/';
+    return true;
+  }
+  return false;
+};

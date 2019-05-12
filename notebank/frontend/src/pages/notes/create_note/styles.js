@@ -12,13 +12,11 @@ export const Steps = styled.div`
 `;
 
 export const StepContainer = styled.div`
-  margin-top: 50px;
-  margin-bottom: 50px;
 `;
 
 export const FormContainer = styled.div`
   display: flex;
-  max-width: 400px;
+  max-width: 350px;
   width: 100%;
   margin: auto;
 
