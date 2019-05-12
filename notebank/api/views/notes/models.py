@@ -23,7 +23,7 @@ class Sheet(models.Model):
 def create_sheet(note, file_name, is_secret, order, **kwargs):
     course = note.course
     school = course.school
-    base_location = f'{school.name}/{course.name}/{note.title}/{note.created_by.username}/{order}'
+    base_location = f'{school.name}/{course.name}/{note.title}-{note.id}/{note.created_by.username}/{order}'
     storage_location = f'{base_location}-{file_name}'
     sheet = Sheet(
         note=note,

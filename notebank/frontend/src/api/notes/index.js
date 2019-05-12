@@ -15,10 +15,11 @@ export const createNote = async (title, courseId, academicYear) => {
   return res.data;
 };
 
-export const createSheet = async (noteId, fileName, isSecret) => {
+export const createSheet = async (noteId, fileName, isSecret, order) => {
   const res = await post(`notes/${noteId}/sheets/`, {
     file_name: fileName,
     is_secret: isSecret,
+    order,
   });
   return res.data;
 };
@@ -30,12 +31,7 @@ export const uploadSheet = async (url, fields, file, onProgressCallback) => {
   }
   fd.append('file', file);
 
-  const headers = {
-    'Content-Type': 'multipart/form-data',
-  };
-
   const res = await axios.post(url, fd, {
-    // headers,
     onUploadProgress: onProgressCallback,
     transformRequest: [(data, headers) => {
       delete headers.common.Authorization;
@@ -44,14 +40,4 @@ export const uploadSheet = async (url, fields, file, onProgressCallback) => {
   });
 
   return res;
-  
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', url);
-  xhr.upload.onprogress = onProgressCallback;
-  xhr.onreadystatechange = _ => {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      onDone();
-    }
-  };
-  xhr.send(fd);
 };

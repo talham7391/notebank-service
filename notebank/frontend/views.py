@@ -23,3 +23,7 @@ def browse_notes(request):
 
 def account(request):
     return render(request, 'frontend/account/index.html')
+
+
+def view_note(request):
+    return render(request, 'frontend/notes/view/index.html')
