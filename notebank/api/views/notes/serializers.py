@@ -23,7 +23,7 @@ class SheetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Sheet
-        fields = ('id', 'note', 'url')
+        exclude = ('storage_location', 'is_secret',)
 
     def get_url(self, sheet):
         return s3.generate_presigned_download(sheet.storage_location)
@@ -34,13 +34,13 @@ class NewSheetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Sheet
-        fields = ('id', 'note', 'upload_url')
+        exclude = ('storage_location', 'is_secret',)
 
     def get_upload_url(self, sheet):
         return s3.generate_presigned_upload(sheet.storage_location)
 
 
-class NewSheetRequestSerializer(serializers.Serializer):
-    file_name = serializers.CharField()
-    is_secret = serializers.BooleanField()
-    order = serializers.IntegerField(min_value=0)
+class NewSheetRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Sheet
+        exclude = ('note', 'storage_location')

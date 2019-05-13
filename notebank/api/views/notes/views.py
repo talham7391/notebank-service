@@ -70,7 +70,7 @@ class SheetsViewSet(CreateModelMixin, viewsets.ReadOnlyModelViewSet):
             if not utils.can_user_create_sheet(request.user, note):
                 return Response(status=status.HTTP_403_FORBIDDEN)
 
-            sheet = create_sheet(note, data['file_name'], data['is_secret'], data['order'])
+            sheet = create_sheet(note, data['file_name'], data['is_secret'], data['order'], data['file_type'])
             sheet.save()
             serializer = serializers.NewSheetSerializer(sheet)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

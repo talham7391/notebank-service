@@ -15,12 +15,14 @@ class Sheet(models.Model):
     storage_location = models.CharField(max_length=256)
     order = models.PositiveSmallIntegerField()
     is_secret = models.BooleanField()
+    file_type = models.CharField(max_length=30)
+    file_name = models.CharField(max_length=128)
 
     class Meta:
         unique_together = ('note', 'order')
 
 
-def create_sheet(note, file_name, is_secret, order, **kwargs):
+def create_sheet(note, file_name, is_secret, order, file_type, **kwargs):
     course = note.course
     school = course.school
     base_location = f'{school.name}/{course.name}/{note.title}-{note.id}/{note.created_by.username}/{order}'
@@ -30,6 +32,8 @@ def create_sheet(note, file_name, is_secret, order, **kwargs):
         storage_location=storage_location,
         is_secret=is_secret,
         order=order,
+        file_type=file_type,
+        file_name=file_name,
         **kwargs,
     )
     return sheet

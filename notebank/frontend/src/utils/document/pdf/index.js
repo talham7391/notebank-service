@@ -17,6 +17,12 @@ export class PDF {
     return null;
   };
 
+  createDataUrlForPage = async pageNum => {
+    const canvas = document.createElement('canvas');
+    await this.renderPageToCanvas(canvas, pageNum, 2);
+    return canvas.toDataURL();
+  };
+
   renderPageToCanvas = async (canvas, pageNumber, scale) => {
     const page = await this.getPage(pageNumber);
 

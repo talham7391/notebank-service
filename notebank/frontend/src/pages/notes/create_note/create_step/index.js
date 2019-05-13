@@ -57,7 +57,7 @@ const Step = Steps.Step;
     for (let i = 0; i < files.length; i++) {
       this.current = i;
 
-      const sheet = await notesApi.createSheet(this.note.id, files[i].name, false, i);
+      const sheet = await notesApi.createSheet(this.note.id, files[i].name, false, i, files[i].type);
       const presignedUrl = sheet.upload_url;
 
       await notesApi.uploadSheet(presignedUrl.url, presignedUrl.fields, fileObjects[i], onProgressFunc(i));
