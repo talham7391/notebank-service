@@ -6,6 +6,11 @@ export const getNotesForAuthenticatedUser = async _ => {
   return res.data;
 };
 
+export const getNotesForCourse = async course => {
+  const res = await get(`notes/`, {course});
+  return res.data;
+};
+
 export const getNote = async id => {
   const res = await get(`notes/${id}/`);
   return res.data;

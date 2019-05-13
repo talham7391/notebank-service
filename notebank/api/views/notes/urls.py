@@ -4,7 +4,7 @@ from django.urls import path, include
 
 
 router = routers.SimpleRouter()
-router.register('notes', NotesViewSet)
+router.register('notes', NotesViewSet, base_name='notes')
 
 notes_router = routers.NestedSimpleRouter(router, 'notes', lookup='note')
 notes_router.register('sheets', SheetsViewSet, base_name='note-sheets')

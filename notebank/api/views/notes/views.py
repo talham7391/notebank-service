@@ -21,8 +21,11 @@ class ReadOnlyOrAuthenticatedPermission(BasePermission):
 
 class NotesViewSet(viewsets.ModelViewSet):
     permission_classes = [ReadOnlyOrAuthenticatedPermission]
-    queryset = Note.objects.all()
     serializer_class = serializers.NoteSerializer
+
+    def get_queryset(self):
+        course_id = self.request.query_params.get('course', None)
+        return Note.objects.all() if course_id is None else Note.objects.filter(course__id=course_id)
 
     def create(self, request, *args, **kwargs):
         serializer = serializers.NewNoteRequestSerializer(data=request.data)
