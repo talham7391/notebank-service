@@ -9,6 +9,7 @@ import * as schoolsApi from 'api/schools';
 import { Link } from 'react-router-dom';
 import BrowseBreadcrumb from '../breadcrumb';
 import { courseCache } from '../utils';
+import * as urls from 'constants/page/urls';
 
 const { Title, Text } = Typography;
 
@@ -53,7 +54,7 @@ const DebouncedInput = DebouncedFunc('onChange', 200, evt => evt.target.value)(I
             itemLayout="horizontal"
             dataSource={this.courses}
             renderItem={course => (
-              <List.Item actions={[<Link onClick={_ => this.updateCourseCache(course)} to={`/school/${this.getSchoolId()}/course/${course.id}/`}>Select</Link>]}>
+              <List.Item actions={[<Link onClick={_ => this.updateCourseCache(course)} to={urls.hashGotoCourse(this.getSchoolId(), course.id)}>Select</Link>]}>
                 <List.Item.Meta
                   title={course.course_code}
                   description={course.name}/>

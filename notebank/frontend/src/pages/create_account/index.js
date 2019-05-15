@@ -9,6 +9,7 @@ import * as usersApi from 'api/users';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { redirectToAccountIfLoggedIn } from 'utils/users';
+import * as urls from 'constants/page/urls';
 
 const { Title } = Typography;
 
@@ -23,7 +24,7 @@ const { Title } = Typography;
       await usersApi.createAccount(fields.email, fields.password);
       this.createSucceeded = true;
       this.createFailed = false;
-      window.location.href = '/login/';
+      urls.goto(urls.LOGIN);
     } catch (e) {
       this.createSucceeded = false;
       this.createFailed = true;

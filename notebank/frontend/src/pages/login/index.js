@@ -10,6 +10,7 @@ import { Alert, Button, Typography } from 'antd';
 import Page from 'components/ui/page';
 import { PageContent } from 'components/ui/page/styles';
 import { redirectToAccountIfLoggedIn } from 'utils/users';
+import * as urls from 'constants/page/urls';
 
 const { Title } = Typography;
 
@@ -30,7 +31,7 @@ const { Title } = Typography;
       api.setToken(token.token);
       this.loginFailed = false;
       this.loginSucceeded = true;
-      window.location.href = '/account/';
+      urls.goto(urls.ACCOUNT);
     } catch (e) {
       this.loginFailed = true;
       this.loginSucceeded = false;

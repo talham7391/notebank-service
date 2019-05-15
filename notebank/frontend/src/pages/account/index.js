@@ -8,6 +8,7 @@ import * as notesApi from 'api/notes';
 import { redirectToLoginIfLoggedOut } from 'utils/users';
 import { observer } from 'mobx-react';
 import { observable, action, toJS } from 'mobx';
+import * as urls from 'constants/page/urls';
 
 const { Title, Paragraph } = Typography;
 
@@ -21,10 +22,6 @@ const { Title, Paragraph } = Typography;
     this.notes = await notesApi.getNotesForAuthenticatedUser();
   }
 
-  onUploadNote = _ => {
-    window.location.href = '/notes/create/';
-  };
-
   gotoNote = noteId => {
     window.location.href = `/notes/#/${noteId}/`;
   };
@@ -35,13 +32,13 @@ const { Title, Paragraph } = Typography;
         <PageContent>
           <Title>My Notes</Title>
           <Divider/>
-          <Button icon="upload" type="primary" onClick={this.onUploadNote}>Upload Note</Button>
+          <Button icon="upload" type="primary" href={urls.CREATE_NOTE}>Upload Note</Button>
           <List
             style={{marginTop: '1.5em'}}
             itemLayout="horizontal"
             dataSource={this.notes}
             renderItem={note => (
-              <List.Item actions={[<a onClick={_ => this.gotoNote(note.id)}>View</a>]}>
+              <List.Item actions={[<a href={urls.NOTE(note.id)}>View</a>]}>
                 <List.Item.Meta
                   title={note.title}/>
               </List.Item>

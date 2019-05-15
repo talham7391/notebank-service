@@ -5,6 +5,7 @@ import { isBlank } from 'utils/strings';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 import { schoolCache, courseCache } from '../utils';
+import * as urls from 'constants/page/urls';
 
 @observer class BrowseBreadcrumb extends Component {
   @observable schoolName = null;
@@ -42,17 +43,17 @@ import { schoolCache, courseCache } from '../utils';
   render() {
     return (
       <Breadcrumb>
-        <Breadcrumb.Item><Link to="/"><Icon type="bank"/></Link></Breadcrumb.Item>
+        <Breadcrumb.Item><Link to={urls.HASH_HOME}><Icon type="bank"/></Link></Breadcrumb.Item>
         { this.shouldShowSchool() &&
           <Breadcrumb.Item>
-            <Link to={`/school/${this.getSchoolId()}/`}>
+            <Link to={urls.hashGotoSchool(this.getSchoolId())}>
               {isBlank(this.schoolName) ? <Icon type="loading"/> : this.schoolName}
             </Link>
           </Breadcrumb.Item>
         }
         { this.shouldShowCourse() &&
           <Breadcrumb.Item>
-            <Link to={`/school/${this.getSchoolId()}/course/${this.getCourseId()}/`}>
+            <Link to={urls.hashGotoCourse(this.getSchoolId(), this.getCourseId())}>
               {isBlank(this.courseName) ? <Icon type="loading"/> : this.courseName}
             </Link>
           </Breadcrumb.Item>

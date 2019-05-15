@@ -26,7 +26,7 @@ class CourseCache {
       const course = await schoolsApi.getCourse(schoolId, courseId);
       this.courseCache[courseId] = course;
     }
-    return this.courseCache[courseId].name;
+    return `${this.courseCache[courseId].course_code} - ${this.courseCache[courseId].name}`;
   };
 
   setCourseForId = (id, course) => {

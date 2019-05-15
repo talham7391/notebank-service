@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import { observable, action, toJS } from 'mobx';
 import * as notesApi from 'api/notes';
 import { Link } from 'react-router-dom';
+import * as urls from 'constants/page/urls';
 
 const { Title, Text } = Typography;
 
@@ -33,10 +34,6 @@ const { Title, Text } = Typography;
     this.load();
   }
 
-  gotoNote = noteId => {
-    window.location.href = `/notes/#/${noteId}/`;
-  };
-
   render() {
     return (
       <Fragment>
@@ -48,7 +45,7 @@ const { Title, Text } = Typography;
             itemLayout="horizontal"
             dataSource={this.notes}
             renderItem={note => (
-              <List.Item actions={[<a onClick={_ => this.gotoNote(note.id)}>View</a>]}>
+              <List.Item actions={[<a href={urls.NOTE(note.id)}>View</a>]}>
                 <List.Item.Meta
                   title={note.title}/>
               </List.Item>

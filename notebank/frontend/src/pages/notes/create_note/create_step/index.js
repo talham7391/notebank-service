@@ -6,6 +6,7 @@ import { observable, action, toJS, computed } from 'mobx';
 import { Progress, Typography, Steps, Icon, Alert } from 'antd';
 import * as notesApi from 'api/notes';
 import axios from 'axios';
+import * as urls from 'constants/page/urls';
 
 const { Title } = Typography;
 const Step = Steps.Step;
@@ -71,7 +72,7 @@ const Step = Steps.Step;
     try {
       await this.doCreateNote();
       await this.doUploadDocuments();
-      window.location.href = `/notes/#/${this.note.id}/`;
+      urls.goto(urls.NOTE(this.note.id));
     } catch (e) {
       this.showError = true;
     }

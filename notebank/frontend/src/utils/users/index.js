@@ -1,8 +1,9 @@
 import { doesTokenExist } from 'api';
+import * as urls from 'constants/page/urls';
 
 export const redirectToAccountIfLoggedIn = _ => {
   if (doesTokenExist()) {
-    window.location.href = '/account/';
+    urls.goto(urls.ACCOUNT);
     return true;
   }
   return false;
@@ -10,7 +11,7 @@ export const redirectToAccountIfLoggedIn = _ => {
 
 export const redirectToLoginIfLoggedOut = _ => {
   if (!doesTokenExist()) {
-    window.location.href = '/login/';
+    urls.goto(urls.LOGIN);
     return true;
   }
   return false;

@@ -2,30 +2,19 @@ import React, { Component, Fragment } from 'react';
 import * as S from './styles';
 import { Typography, Button } from 'antd';
 import { doesTokenExist, deleteToken } from 'api';
+import * as urls from 'constants/page/urls';
 
 const { Text } = Typography;
 
 class Toolbar extends Component {
 
   gotoHomePage = _ => {
-    window.location.href = "/";
-  };
-
-  gotoLoginPage = _ => {
-    window.location.href = "/login/";
-  };
-
-  gotoCreateAccountPage = _ => {
-    window.location.href = "/create-account/";
-  };
-
-  gotoMyAccount = _ => {
-    window.location.href = "/account/";
+    urls.goto(urls.HOME);
   };
 
   doLogout = _ => {
     deleteToken();
-    window.location.href = "/login/";
+    urls.goto(urls.LOGIN);
   };
 
   render() {
@@ -41,14 +30,14 @@ class Toolbar extends Component {
               { this.props.showLogout ?
                 <Button onClick={this.doLogout} icon="logout">Logout</Button>
                 :
-                <Button onClick={this.gotoMyAccount} icon="user" type="primary">My Account</Button>
+                <Button href={urls.ACCOUNT} icon="user" type="primary">My Account</Button>
               }
             </Fragment>
             :
             <S.LoginButtons>
-              <Button onClick={this.gotoCreateAccountPage}>Create Account</Button>
+              <Button href={urls.CREATE_ACCOUNT}>Create Account</Button>
               <Text>or</Text>
-              <Button icon="login" onClick={this.gotoLoginPage} type="primary">Login</Button>
+              <Button icon="login" href={urls.LOGIN} type="primary">Login</Button>
             </S.LoginButtons>
           )
         }
