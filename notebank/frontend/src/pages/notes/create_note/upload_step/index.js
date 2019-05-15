@@ -79,6 +79,8 @@ const { Text } = Typography;
         course_code: 'Loading Course Code...',
       }];
       this.courseOptions = [await getCourse(this.props.state.noteForm.schoolId.value, this.props.state.noteForm.courseId.value)];
+    } else {
+      this.updateCourseOptions('');
     }
   };
 
@@ -172,6 +174,7 @@ const { Text } = Typography;
                 rules: [{required: true, message: 'Please select a school.'}],
               })(
                 <Select
+                  disabled={true}
                   onChange={this.onSchoolSelect}
                   showSearch
                   notFoundContent={this.isLoadingSchools ? <Icon type="loading"/> : 'No schools found.'}

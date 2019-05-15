@@ -1,7 +1,9 @@
 import { observable, computed, action, autorun, toJS } from 'mobx';
 
 class NoteFormState {
-  @observable schoolId = undefined;
+  @observable schoolId = {
+    value: 1,
+  };
   @observable courseId = undefined;
   @observable academicYear = undefined;
   @observable title = undefined;

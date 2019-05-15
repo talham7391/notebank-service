@@ -14,7 +14,7 @@ class BrowseNotesPage extends Component {
       <Page>
         <PageContent>
           <HashRouter>
-            <Route exact path="/" component={BrowseSchools}/>
+            {/* <Route exact path="/" component={BrowseSchools}/> */}
             <Route exact path="/school/:schoolid/" component={BrowseCourses}/>
             <Route exact path="/school/:schoolid/course/:courseid/" component={DisplayNotes}/>
           </HashRouter>
