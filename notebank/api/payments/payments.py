@@ -3,11 +3,11 @@ from squareconnect import models
 import os
 
 
-ACCESS_TOKEN = os.environ['SQUARE_ACCESS_TOKEN']
+# ACCESS_TOKEN = os.environ['SQUARE_ACCESS_TOKEN']
 
 
 customers_api = CustomersApi()
-customers_api.api_client.configuration.access_token = ACCESS_TOKEN
+# customers_api.api_client.configuration.access_token = ACCESS_TOKEN
 
 
 def create_customer(email):
