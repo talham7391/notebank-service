@@ -8,12 +8,17 @@ import { observable, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as notesApi from 'api/notes';
 import { PDF } from 'utils/document/pdf';
-import { Typography, Icon } from 'antd';
+import { getLogisticsFromNote } from 'utils/notes';
+import { Typography, Icon, Divider } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
 @observer class ViewNoteComponent extends Component {
   @observable note = null;
+  @observable data = {
+    school: null,
+    course: null,
+  };
   @observable pageUrls = [];
 
   reset = _ => {
@@ -23,6 +28,10 @@ const { Title, Paragraph } = Typography;
 
   @action retrieveNote = async _ => {
     this.note = await notesApi.getNote(this.props.match.params.noteid);
+  };
+
+  @action retrieveNoteData = async _ => {
+    this.data = await getLogisticsFromNote(this.note);
   };
 
   @action retrieveSheets = async _ => {
@@ -47,6 +56,7 @@ const { Title, Paragraph } = Typography;
   @action load = async _ => {
     this.reset();
     await this.retrieveNote();
+    await this.retrieveNoteData();
     await this.retrieveSheets();
   };
 
@@ -64,7 +74,11 @@ const { Title, Paragraph } = Typography;
     return (
       <Page>
         <PageContent>
-          <Title>{this.note?.title}</Title>
+          <S.InfoContainer>
+            <Title>{this.note?.title}</Title>
+            <Paragraph style={{fontSize: '18px'}}>{this.data?.course?.course_code || ''} - {this.data?.course?.name || ''}</Paragraph>
+          </S.InfoContainer>
+          <Divider/>
           <S.PagesContainer>
             {this.pageUrls.map((url, idx) => (
               <img src={url} key={idx}/>

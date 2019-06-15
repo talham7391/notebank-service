@@ -16,6 +16,11 @@ export const getSchool = async schoolId => {
   return res.data;
 };
 
+export const getCourseIndependant = async courseId => {
+  const res = await get(`courses/${courseId}/`);
+  return res.data;
+};
+
 export const getCourses = async (schoolId, searchQuery) => {
   const params = {
     limit: 10,

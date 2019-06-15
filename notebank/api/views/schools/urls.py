@@ -4,6 +4,7 @@ from rest_framework_nested import routers
 
 router = routers.SimpleRouter()
 router.register('schools', views.SchoolsViewSet, base_name='schools')
+router.register('courses', views.IndependentCoursesViewSet)
 
 schools_router = routers.NestedSimpleRouter(router, 'schools', lookup='school')
 schools_router.register('courses', views.CoursesViewSet, base_name='courses')

@@ -23,6 +23,13 @@ class SchoolsViewSet(viewsets.ReadOnlyModelViewSet):
             return School.objects.filter(name__icontains=name)
 
 
+class IndependentCoursesViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = CourseSerializer
+    authentication_classes = []
+    permission_classes = []
+    queryset = Course.objects.all()
+
+
 class CoursesViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CourseSerializer
     pagination_class = LimitPagination
