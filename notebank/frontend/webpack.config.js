@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const webpack = require('webpack');
 
 const entryMap = {};
 
@@ -47,5 +48,11 @@ module.exports = {
       constants: path.resolve(__dirname, 'src', 'constants/'),
     },
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.API_HOST': JSON.stringify(process.env.API_HOST),
+      'process.env.API_PORT': JSON.stringify(process.env.API_PORT),
+    }),
+  ],
   watch: true,
 };

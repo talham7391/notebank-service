@@ -1,9 +1,17 @@
 import axios from 'axios';
+import { isBlank } from 'utils/strings';
 
-const HOST = 'localhost';
-const PORT = '8000';
+const HOST = process.env.API_HOST;
+const PORT = process.env.API_PORT;
 
-const getBase = endpoint => `http://${HOST}:${PORT}/api/${endpoint}`;
+const getAddress = _ => {
+  if (isBlank(PORT)) {
+    return HOST;
+  } else {
+    return `${HOST}:${PORT}`;
+  }
+};
+const getBase = endpoint => `https://${getAddress()}/api/${endpoint}`;
 
 const createParamsStr = params => {
   let paramsStr = '';
