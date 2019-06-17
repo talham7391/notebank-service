@@ -38,8 +38,17 @@ class CoursesViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         school_id = self.kwargs['school_pk']
-        course_code = self.request.query_params.get('course_code', None)
-        if course_code is None:
+        query_param = self.request.query_params.get('query', None)
+        if query_param is None:
             return Course.objects.filter(school=school_id)
         else:
-            return Course.objects.filter(course_code__icontains=course_code, school=school_id)
+            query = ''.join(query_param.lower().split())
+            print(query)
+            courses = Course.objects.filter(school=school_id)
+            return [
+                course
+                for course in courses
+                if
+                query in ''.join(course.course_code.lower().split()) or
+                query in ''.join(course.name.lower().split())
+            ]

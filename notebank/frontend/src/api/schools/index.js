@@ -26,7 +26,7 @@ export const getCourses = async (schoolId, searchQuery) => {
     limit: 10,
   };
   if (searchQuery && searchQuery !== '') {
-    params.course_code = searchQuery
+    params.query = searchQuery
   }
   const res = await get(`schools/${schoolId}/courses/`, params);
   return res.data;

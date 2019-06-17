@@ -4,14 +4,19 @@ import { isBlank } from 'utils/strings';
 const HOST = process.env.API_HOST;
 const PORT = process.env.API_PORT;
 
-const getAddress = _ => {
-  if (isBlank(PORT)) {
-    return HOST;
-  } else {
-    return `${HOST}:${PORT}`;
+const getBase = endpoint => {
+  let address = HOST;
+  if (!isBlank(PORT)) {
+    address += `:${PORT}`;
   }
+  
+  let protocol = 'http://';
+  if (HOST != 'localhost') {
+    protocol = 'https://';
+  }
+
+  return `${protocol}${address}/api/${endpoint}`;
 };
-const getBase = endpoint => `https://${getAddress()}/api/${endpoint}`;
 
 const createParamsStr = params => {
   let paramsStr = '';
