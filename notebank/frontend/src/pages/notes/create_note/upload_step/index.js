@@ -9,6 +9,7 @@ import { debounceTime } from 'rxjs/operators';
 import { getSchool, getSchools, getCourse, getCourses } from 'api/schools';
 import ReorderablePreviewList from 'components/document/ReorderablePreviewList';
 import { VALIDATE_NOTE_CREATION } from 'constants/global';
+import * as urls from 'constants/page/urls';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -104,11 +105,6 @@ const { Text } = Typography;
     this.props.state.noteForm.deleteFile(file);
   };
 
-  onTerms = evt => {
-    evt.preventDefault();
-    window.location.href = '/terms-and-conditions/';
-  };
-
   termsAndConditionsValidator(rule, value, callback) {
     const errors = [];
     if (value !== true) {
@@ -162,13 +158,6 @@ const { Text } = Typography;
       <PS.StepContainer>
         <PS.FormContainer>
           <Form layout="vertical">
-            <Form.Item label="Title">
-              {getFieldDecorator('title', {
-                rules: [{required: true, message: 'Please enter a title.'}],
-              })(
-                <Input placeholder="Assignment 4 Solutions"/>
-              )}
-            </Form.Item>
             <Form.Item label="School" required={true}>
               {getFieldDecorator('schoolId', {
                 rules: [{required: true, message: 'Please select a school.'}],
@@ -200,6 +189,13 @@ const { Text } = Typography;
                   placeholder="ABC 123">
                   { this.renderCourseOptions }
                 </Select>
+              )}
+            </Form.Item>
+            <Form.Item label="Title">
+              {getFieldDecorator('title', {
+                rules: [{required: true, message: 'Please enter a title.'}],
+              })(
+                <Input placeholder="Assignment 4 Solutions"/>
               )}
             </Form.Item>
             <Form.Item label="Academic Year">
@@ -268,7 +264,7 @@ const { Text } = Typography;
                   validator: this.termsAndConditionsValidator,
                 }],
               })(
-                <Checkbox>I agree to the <a onClick={this.onTerms}>Terms and Conditions.</a></Checkbox>
+                <Checkbox>I agree to the <a href={urls.TERMS_AND_CONDITIONS} target="_blank">Terms and Conditions.</a></Checkbox>
               )}
             </Form.Item>
             <Form.Item>

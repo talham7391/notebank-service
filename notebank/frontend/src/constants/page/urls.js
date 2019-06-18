@@ -8,6 +8,7 @@ export const BROWSE_NOTES = '/notes/browse/#/school/1/';
 export const CREATE_NOTE = '/notes/create/';
 export const NOTES = '/notes/';
 export const NOTE = noteId => `${NOTES}#/${noteId}/`;
+export const TERMS_AND_CONDITIONS = '/terms-and-conditions/';
 
 // export const HASH_HOME = '/';
 export const HASH_HOME = '/school/1/';
