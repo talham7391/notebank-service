@@ -27,3 +27,24 @@ export const LoginButtons = styled.div`
   column-gap: 16px;
   align-items: center;
 `;
+
+export const Actions = styled.div`
+  display: flex;
+  align-items: center;
+
+  > *:not(:last-child) {
+    margin-right: 30px;
+  }
+
+  @media screen and (max-width: 630px) {
+    display: none;
+  }
+`;
+
+export const Menu = styled.div`
+  display: none;
+  
+  @media screen and (max-width: 630px) {
+    display: block;
+  }
+`;
