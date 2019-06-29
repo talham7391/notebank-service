@@ -19,19 +19,59 @@ const DebouncedInput = DebouncedFunc('onChange', 200, evt => evt.target.value)(I
   @observable courses = [];
   @observable loading = false;
   @observable schoolName = null;
+  searchValue = null;
+  currentPage = 0;
 
   getSchoolId = _ => {
     return this.props.match.params.schoolid;
   };
 
   @action onCourseSearch = async value => {
+    this.searchValue = value;
     this.loading = true;
     this.courses = await schoolsApi.getCourses(this.getSchoolId(), value);
+    this.currentPage = 1;
     this.loading = false;
   };
 
-  @action async componentDidMount() {
-    this.courses = await schoolsApi.getCourses(this.getSchoolId());
+  @action loadCourses = async _ => {
+    if (this.loading) {
+      return;
+    }
+    this.loading = true;
+    const LOAD_NUMBER = 10;
+    if (this.currentPage === 0) {
+      this.courses = await schoolsApi.getCourses(this.getSchoolId(), this.searchValue, {
+        limit: LOAD_NUMBER,
+      });
+    } else {
+      const moreCourses = await schoolsApi.getCourses(this.getSchoolId(), this.searchValue, {
+        limit: LOAD_NUMBER,
+        offset: this.currentPage * LOAD_NUMBER,
+      });
+      this.courses = [
+        ...this.courses,
+        ...moreCourses,
+      ];
+    }
+    this.currentPage += 1;
+    this.loading = false;
+  };
+
+  @action onScroll = evt => {
+    if (window.scrollY + window.innerHeight === document.body.scrollHeight) {
+      this.loadCourses();
+    }
+  };
+
+  @action componentDidMount() {
+    window.scrollTo(0, 0);
+    this.loadCourses();
+    window.addEventListener('scroll', this.onScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
   }
 
   updateCourseCache = course => {
@@ -60,6 +100,11 @@ const DebouncedInput = DebouncedFunc('onChange', 200, evt => evt.target.value)(I
                   description={course.name}/>
               </List.Item>
             )}/>
+          { this.loadCourses && 
+            <S.Loading>
+              <Icon type="loading"/>
+            </S.Loading>
+          }
         </PS.BrowseContainer>
       </Fragment>
     );

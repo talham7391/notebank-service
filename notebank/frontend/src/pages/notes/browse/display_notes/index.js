@@ -31,6 +31,7 @@ const { Title, Text } = Typography;
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     this.load();
   }
 

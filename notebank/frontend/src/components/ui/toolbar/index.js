@@ -49,8 +49,8 @@ const { Text } = Typography;
               </Fragment>
               :
               <S.LoginButtons>
-                <Button href={urls.CREATE_ACCOUNT}>Create Account</Button>
-                <Text>or</Text>
+                {/* <Button href={urls.CREATE_ACCOUNT}>Create Account</Button>
+                <Text>or</Text> */}
                 <Button icon="login" href={urls.LOGIN} type="primary">Login</Button>
               </S.LoginButtons>
             )
@@ -80,11 +80,11 @@ const { Text } = Typography;
                   <span>My Account</span>
                 </Menu.Item>
               }
-              { this.props.showLogin !== false && !doesTokenExist() &&
+              {/* { this.props.showLogin !== false && !doesTokenExist() &&
                 <Menu.Item onClick={_ => urls.goto(urls.CREATE_ACCOUNT)}>
                   <span>Create Account</span>
                 </Menu.Item>
-              }
+              } */}
               { this.props.showLogin !== false && !doesTokenExist() &&
                 <Menu.Item onClick={_ => urls.goto(urls.LOGIN)}>
                   <Icon type="login"/>

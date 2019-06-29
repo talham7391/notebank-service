@@ -21,9 +21,10 @@ export const getCourseIndependant = async courseId => {
   return res.data;
 };
 
-export const getCourses = async (schoolId, searchQuery) => {
+export const getCourses = async (schoolId, searchQuery, givenParams) => {
   const params = {
     limit: 10,
+    ...givenParams,
   };
   if (searchQuery && searchQuery !== '') {
     params.query = searchQuery
