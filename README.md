@@ -1,3 +1,9 @@
+<br/>
+<div align="center">
+    <img src="https://i.imgur.com/vQ09ZTa.png"/>
+</div>
+<br/>
+
 # Notebank
 
 A service that will allows users to upload & sell their notes/exams.
@@ -12,6 +18,8 @@ A service that will allows users to upload & sell their notes/exams.
     3. `AWS_ACCESS_KEY_ID`
     4. `AWS_SECRET_ACCESS_KEY`
     5. `AWS_S3_BUCKET_NAME` (where all the files are uploaded to)
+    6. `API_HOST` ("localhost" for local dev)
+    7. `API_PORT` ("8000" for local dev)
 4. `cd notebank/frontend`
 5. `npm install`
 6. `npm run-script build` then `^C` after the frontend files have been compiled.
