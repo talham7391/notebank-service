@@ -6,9 +6,17 @@
 
 # Notebank
 
-A service that will allows users to upload & sell their notes/exams.
+A service that will allows users to upload & share their notes/exams. This service is production ready but I don't have time to pursue it thus I've made it public.
 
-# Development
+# Tech Used
+
+* Django / Django REST Framework
+* React
+* Webpack/Babel
+* AWS S3
+* MySQL
+
+# Local Dev
 
 1. `git clone git@github.com:talham7391/notebank-service.git`
 2. `cd notebank-service`
@@ -28,3 +36,11 @@ A service that will allows users to upload & sell their notes/exams.
 9. Copy the `notebank-service/notebank/frontend/assets` folder into `notebank-service/notebank/frontend/static` folder.
 9. `python manage.py migrate`
 10. `python manage.py runserver`
+
+# Screenshots
+
+<div align="center">
+    <img src="https://i.imgur.com/N9qd4rn.png"/>
+    <img src="https://i.imgur.com/XPlRtA8.png"/>
+    <img src="https://i.imgur.com/n5KoYse.png"/>
+</div>
