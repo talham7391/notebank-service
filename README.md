@@ -41,6 +41,8 @@ A service that will allows users to upload & share their notes/exams. This servi
 
 <div align="center">
     <img src="https://i.imgur.com/N9qd4rn.png"/>
+    <br/>
     <img src="https://i.imgur.com/XPlRtA8.png"/>
+    <br/>
     <img src="https://i.imgur.com/n5KoYse.png"/>
 </div>
